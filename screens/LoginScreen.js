@@ -25,7 +25,6 @@ const LoginHandling = (props) => {
     useEffect(() => {
 
         const _retrieveData = async () => {
-            console.log('called')
             try {
                 const value = await AsyncStorage.getItem('user');
                 console.log(value)
