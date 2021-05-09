@@ -7,12 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios'
 import config from '../config';
 
-const CRUDUsers = () => {
+const CRUDUsers = ({ navigation }) => {
     const [users, setUsers] = useState([]);
-
-    const editUser = (id) => {
-
-    }
 
     const deleteUser = async (id) => {
         try {
@@ -35,17 +31,17 @@ const CRUDUsers = () => {
             }
         };
         getUsers();
-    }, []);
+    });
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView>
             {users.length > 0 ? users.map((user) => {
-                return <View key={user.id} style={{ height: 100, margin: 10, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white' }}>
+                return <View key={user.id} style={{ height: 100, margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
                     <Text style={{ flex: 1 }}>{user.prenom}</Text>
-                    <Text style={{ flex: 5 }}>{user.email}</Text>
+                    <Text style={{ flex: 6 }}>{user.email}</Text>
                     <Text style={{ flex: 2 }}>{user.biographie}</Text>
-                    <Text style={{ flex: 1 }}>{user.date_de_naissance}</Text>
+                    <Text style={{ flex: 2 }}>{new Date(user.date_de_naissance).toDateString()}</Text>
 
-                    <TouchableOpacity style={{ flex: 1 }}><Ionicons name="pencil" size={18} color="orange" /></TouchableOpacity>
+                    <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate('EditUser', { utilisateur: user })}><Ionicons name="pencil" size={18} color="orange" /></TouchableOpacity>
                     <TouchableOpacity onPress={() => deleteUser(user.id)} style={{ flex: 1 }}><Ionicons name="trash" size={18} color="red" /></TouchableOpacity>
 
                 </View>

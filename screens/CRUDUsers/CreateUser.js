@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios'
 import config from '../../config';
 
-const CreateUser = () => {
+const CreateUser = ({ navigation }) => {
     const [prenom, setPrenom] = useState("");
     const [dateNaissance, setDateNaissance] = useState(new Date(1598051730000));
     const [showPicker, setShowPicker] = useState(false);
@@ -14,7 +14,7 @@ const CreateUser = () => {
     const [biographie, setBiographie] = useState("");
     const [motDePasse, setMotDePasse] = useState("");
     const dateChange = (event, date) => {
-        if (!event.type == "dismissed") {
+        if (event.type != "dismissed") {
             setDateNaissance(date);
         }
         setShowPicker(false)
@@ -23,34 +23,32 @@ const CreateUser = () => {
     const saveUser = () => {
         if (prenom != '' && dateNaissance != '' && email != '' && biographie != '' && motDePasse != '') {
             try {
-                console.log({
+
+                axios.post(`${config.API_ROOT_URL}/utilisateurs`, {
                     prenom: prenom,
                     date_de_naissance: dateNaissance,
                     email: email,
                     biographie: biographie,
                     mot_de_passe: motDePasse
                 })
-                axios.post(`${config.API_ROOT_URL}/utilisateurs`, {
-                    prenom: prenom,
-                    dateNaissance: dateNaissance,
-                    email: email,
-                    biographie: biographie,
-                    mot_de_passe: motDePasse
-                })
+                    .then(() => navigation.goBack())
             } catch (err) {
                 console.error(err)
             }
+            // navigation.navigate('CRUDUsers')
 
-            setPrenom('');
-            setDateNaissance(new Date(1598051730000));
-            setEmail('');
-            setBiographie('');
-            setMotDePasse('');
-            prenomInput.clear()
-            emailInput.clear()
-            bioInput.clear()
-            mdpInput.clear()
+
+            // setPrenom('');
+            // setDateNaissance(new Date(1598051730000));
+            // setEmail('');
+            // setBiographie('');
+            // setMotDePasse('');
+            // prenomInput.clear()
+            // emailInput.clear()
+            // bioInput.clear()
+            // mdpInput.clear()
         } else {
+            console.log("err")
             console.log({
                 prenom: prenom,
                 date_de_naissance: dateNaissance,
@@ -66,10 +64,10 @@ const CreateUser = () => {
     return (
         <View style={styles.container}>
 
-            <TextInput style={{ padding: 20 }} maxLength={40} ref={input => prenomInput = input} onChangeText={prenom => setPrenom(prenom)} placeholder="prenom" ></TextInput>
-            <TextInput style={{ padding: 20 }} maxLength={150} keyboardType="email-address" ref={input => emailInput = input} onChangeText={email => setEmail(email)} placeholder="email" ></TextInput>
-            <TextInput style={{ padding: 20 }} maxLength={200} ref={input => bioInput = input} multiline={true} onChangeText={bio => setBiographie(bio)} placeholder="Biographie" ></TextInput>
-            <TextInput style={{ padding: 20 }} maxLength={30} ref={input => mdpInput = input} secureTextEntry={true} onChangeText={motDePasse => setMotDePasse(motDePasse)} placeholder="mot_de_passe" ></TextInput>
+            <TextInput style={{ padding: 20 }} maxLength={40} onChangeText={prenom => setPrenom(prenom)} placeholder="prenom" ></TextInput>
+            <TextInput style={{ padding: 20 }} maxLength={150} keyboardType="email-address" onChangeText={email => setEmail(email)} placeholder="email" ></TextInput>
+            <TextInput style={{ padding: 20 }} maxLength={200} multiline={true} onChangeText={bio => setBiographie(bio)} placeholder="Biographie" ></TextInput>
+            <TextInput style={{ padding: 20 }} maxLength={30} secureTextEntry={true} onChangeText={motDePasse => setMotDePasse(motDePasse)} placeholder="mot_de_passe" ></TextInput>
             <Button onPress={() => setShowPicker(true)} title="Show time picker!" />
             {showPicker && (<DateTimePicker
                 value={dateNaissance}
