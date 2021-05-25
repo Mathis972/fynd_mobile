@@ -7,7 +7,6 @@ import config from '../../config';
 
 const EditUser = ({ route, navigation }) => {
     const { utilisateur } = route.params
-    console.log(utilisateur)
 
     const [prenom, setPrenom] = useState(utilisateur.prenom);
     const [dateNaissance, setDateNaissance] = useState(new Date(utilisateur.date_de_naissance));
@@ -20,19 +19,14 @@ const EditUser = ({ route, navigation }) => {
             setDateNaissance(date);
         }
         setShowPicker(false)
-
     }
+    // const goBack = () => {
+    //     navigation.goBack();
+    //     navigation.state.params.refresh({ref})
+    // }
     const saveUser = () => {
         if (prenom != '' && dateNaissance != '' && email != '' && biographie != '' && motDePasse != '') {
-            console.log(utilisateur.id)
             try {
-                console.log({
-                    prenom: prenom,
-                    date_de_naissance: dateNaissance,
-                    email: email,
-                    biographie: biographie,
-                    mot_de_passe: motDePasse
-                })
                 axios.put(`${config.API_ROOT_URL}/utilisateurs/${utilisateur.id}`, {
                     prenom: prenom,
                     date_de_naissance: dateNaissance,
@@ -45,17 +39,7 @@ const EditUser = ({ route, navigation }) => {
             } catch (err) {
                 console.error(err)
             }
-        } else {
-            console.log({
-                prenom: prenom,
-                date_de_naissance: dateNaissance,
-                email: email,
-                biographie: biographie,
-                mot_de_passe: motDePasse
-            })
-
         }
-
     }
 
     return (

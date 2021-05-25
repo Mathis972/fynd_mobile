@@ -6,6 +6,8 @@ import { inject, observer, Provider } from 'mobx-react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { loginStore } from "../store/LoginStore"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
+
 
 
 const LoginScreen = ({ navigation }) => {
@@ -43,18 +45,13 @@ const LoginHandling = (props) => {
     }, [])
 
 
-    const SignIn = () => {
+    const SignIn = async () => {
+        // await axios.get(`${config.API_ROOT_URL}/utilisateurs/${id}`);
+
         // await ValidateAuthentication(reqToken, loginStore.user.username, loginStore.user.password)
-        //     .then(r => CreateNewSession(reqToken)
-        //         .then(r => {
-        //             loginStore.user.session_id = r.data.session_id,
-        //                 GetUserAccount(r.data.session_id)
-        //                     .then(r => { loginStore.signUserInOut(true), navigation.navigate('TabNavigator') })
-        //                     .catch(err => console.error(err))
-        //         })
-        //         .catch(err => console.error(err)))
+        //     .then(r => { loginStore.signUserInOut(true), navigation.navigate('CRUDUsers') })
         //     .catch(err => console.error(err))
-        console.log(loginStore.user)
+        // console.log(loginStore.user)
 
 
         loginStore.signUserInOut(true);
