@@ -12,7 +12,6 @@ export default function App() {
   const stores = { loginStore }
   return (
     <Provider {...stores}>
-
       <NavigationContainer>
         <Navigation />
       </NavigationContainer>

@@ -20,6 +20,16 @@ const ReadConversations = ({ navigation }) => {
             console.error(err);
         }
     }
+
+    const updateConversation = async (id, body) => {
+        try {
+            const resp = await axios.put(`${config.API_ROOT_URL}/conversations/${id}`, body);
+            const newArrayOfConversations = conversations.map((conversation) => conversation.id == id ? resp.data : conversation);
+            setConversations(newArrayOfConversations);
+        } catch (err) {
+            console.error(err);
+        }
+    }
     useFocusEffect(
         useCallback(() => {
             const getConversations = async () => {
@@ -43,8 +53,9 @@ const ReadConversations = ({ navigation }) => {
                         <Text style={{ flex: 1 }}>User 1 : {conversation.fk_utilisateur1_id}</Text>
                         <Text style={{ flex: 3 }}>User 2 : {conversation.fk_utilisateur2_id}</Text>
                         {/* <Text style={{ flex: 1 }}>{new Date(conversation.date_de_naissance).toDateString()}</Text> */}
-                        <TouchableOpacity style={{ width: 20 }} onPress={() => navigation.navigate('MessagesFromConversation', { conversation_id: conversation.id })}><Ionicons name="pencil" size={18} color="orange" /></TouchableOpacity>
-                        {/* <TouchableOpacity onPress={() => deleteConversation(conversation.id)} style={{ width: 20 }}><Ionicons name="trash" size={18} color="red" /></TouchableOpacity> */}
+                        <TouchableOpacity style={{ width: 20 }} onPress={() => navigation.navigate('MessagesFromConversation', { conversation_id: conversation.id })}><Ionicons name="arrow-forward" size={18} color="purple" /></TouchableOpacity>
+                        <TouchableOpacity style={{ width: 20 }} onPress={() => updateConversation(conversation.id, { est_enregistre: !conversation.est_enregistre })}><Ionicons name="save" size={18} color={conversation.est_enregistre ? "green" : "black"} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => deleteConversation(conversation.id)} style={{ width: 20 }}><Ionicons name="trash" size={18} color="red" /></TouchableOpacity>
 
                     </View>
                 )

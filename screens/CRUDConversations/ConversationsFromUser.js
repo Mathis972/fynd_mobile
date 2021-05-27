@@ -11,6 +11,16 @@ import { useFocusEffect } from '@react-navigation/core';
 
 const ConversationsFromUser = ({ navigation, route }) => {
     const [conversations, setConversations] = useState([]);
+
+    const deleteConversation = async (id) => {
+        try {
+            await axios.delete(`${config.API_ROOT_URL}/conversations/${id}`);
+            const newArrayOfConversations = conversations.filter((conversation) => conversation.id != id);
+            setConversations(newArrayOfConversations);
+        } catch (err) {
+            console.error(err);
+        }
+    }
     useFocusEffect(
         useCallback(() => {
             if (route.params.type === "user") {
@@ -47,8 +57,8 @@ const ConversationsFromUser = ({ navigation, route }) => {
                     <Text style={{ flex: 3, textAlign: 'center' }}>User 1 : {conversation.utilisateurs1.email} {conversation.ajout_utilisateurs1 ? '✔️' : '❌'}</Text>
 
                     <Text style={{ flex: 3, textAlign: 'center' }}>User 2 : {conversation.utilisateur2.email} {conversation.ajout_utilisateurs1 ? '✔️' : '❌'}</Text>
-                    <TouchableOpacity style={{ width: 20 }} onPress={() => navigation.navigate('MessagesFromConversation', { conversation_id: conversation.id })}><Ionicons name="pencil" size={18} color="orange" /></TouchableOpacity>
-                    <TouchableOpacity onPress={() => console.log('del')} style={{ width: 20 }}><Ionicons name="trash" size={18} color="red" /></TouchableOpacity>
+                    <TouchableOpacity style={{ width: 20 }} onPress={() => navigation.navigate('MessagesFromConversation', { conversation_id: conversation.id })}><Ionicons name="arrow-forward" size={18} color="purple" /></TouchableOpacity>
+                    <TouchableOpacity onPress={() => deleteConversation(conversation.id)} style={{ width: 20 }}><Ionicons name="trash" size={18} color="red" /></TouchableOpacity>
                 </View>
             }) : <Text>No conversations</Text>}
             <StatusBar style="auto" />
