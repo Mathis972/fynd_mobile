@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { loginStore } from "../store/LoginStore"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
+import config from "../config"
 
 
 
@@ -46,16 +47,18 @@ const LoginHandling = (props) => {
 
 
     const SignIn = async () => {
-        // await axios.get(`${config.API_ROOT_URL}/utilisateurs/${id}`);
-
-        // await ValidateAuthentication(reqToken, loginStore.user.username, loginStore.user.password)
-        //     .then(r => { loginStore.signUserInOut(true), navigation.navigate('CRUDUsers') })
-        //     .catch(err => console.error(err))
-        // console.log(loginStore.user)
-
-
-        loginStore.signUserInOut(true);
-        navigation.navigate('CRUDUsers')
+        await axios.post(`${config.API_ROOT_URL}/utilisateurs/login`, {
+            email: loginStore.user.username,
+            mot_de_passe: loginStore.user.password
+        })
+            .then(r => {
+                if (r.data.est_admin) {
+                    loginStore.user.token = r.data.token
+                    loginStore.signUserInOut(true);
+                    navigation.navigate('CRUDUsers');
+                }
+            })
+            .catch(err => console.error(err));
     }
     return (
 
@@ -72,7 +75,7 @@ const LoginHandling = (props) => {
                         display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', borderBottomColor: 'grey',
                         borderBottomWidth: 2
                     }}>
-                        <TextInput style={styles.input} value={loginStore.user.username} placeholder='Email' placeholderTextColor='white' onChangeText={text => loginStore.user.username = text} >
+                        <TextInput style={styles.input} keyboardType="email-address" value={loginStore.user.username} placeholder='Email' placeholderTextColor='white' onChangeText={text => loginStore.user.username = text} >
                         </TextInput><Ionicons name="person" size={18} color="white" /></View>
                     <View style={{
                         display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center', borderBottomColor: 'grey',

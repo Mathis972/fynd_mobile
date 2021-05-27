@@ -1,15 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import UserRow from "../../components/users/UserRow"
-
-import axios from 'axios'
+import axioss from 'axios'
 import config from '../../config';
 import { useFocusEffect } from '@react-navigation/core';
+import { inject, observer } from 'mobx-react';
 
-const CRUDUsers = ({ navigation }) => {
+
+const CRUDUsersHandling = ({ navigation, loginStore }) => {
     const [users, setUsers] = useState([]);
+    const axios = axioss.create({ headers: { "Authorization": loginStore.user.token } })
 
     const deleteUser = async (id) => {
         try {
@@ -26,7 +27,7 @@ const CRUDUsers = ({ navigation }) => {
             const getUsers = async () => {
                 try {
                     let resp = await axios.get(`${config.API_ROOT_URL}/utilisateurs`)
-                    console.log(resp.data)
+                    // console.log(resp.data)
                     setUsers(resp.data);
                 } catch (err) {
                     console.error(err);
@@ -54,5 +55,5 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
 });
-
+const CRUDUsers = inject('loginStore')(observer(CRUDUsersHandling));
 export default CRUDUsers

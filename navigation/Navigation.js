@@ -12,8 +12,7 @@ import ReadQuestions from '../screens/CRUDQuestions/ReadQuestions';
 import ReadConversations from '../screens/CRUDConversations/ReadConversations';
 import ConversationsFromUser from '../screens/CRUDConversations/ConversationsFromUser';
 import MessagesFromConversation from '../screens/CRUDMessages/MessagesFromConversation';
-
-
+import { View } from 'react-native';
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator();
@@ -23,12 +22,17 @@ const NavigationHandler = (props) => {
     return (
         <Drawer.Navigator initialRouteName="LoginScreen" screenOptions={({ route, navigation }) => ({
             headerRight: () => {
+
                 if (route.name === "CRUDUsers") {
-                    return <Ionicons style={{ marginRight: 15 }} onPress={() => navigation.navigate('CreateUser')} name="add" size={25} color={"blue"}></Ionicons>
+                    return (<View style={{ flexDirection: 'row' }}>
+                        <Ionicons style={{ marginRight: 15 }} onPress={() => navigation.navigate('CreateUser')} name="add" size={25} color={"blue"}></Ionicons>
+                        <Ionicons style={{ marginRight: 15 }} onPress={() => loginStore.signUserInOut(false)} name="log-out" size={25} color={"red"}></Ionicons>
+                    </View>)
                 } else if (route.name === "CRUDQuestions") {
                     return <Ionicons style={{ marginRight: 15 }} onPress={() => navigation.navigate('CreateQuestion')} name="add" size={25} color={"blue"}></Ionicons>
                 }
             },
+
             headerShown: true
         })}>
             {loginStore.user.isSignedIn
@@ -59,8 +63,6 @@ const UserNavigation = () => {
             <Stack.Screen name="ConversationsFromUser" component={ConversationsFromUser}></Stack.Screen>
             <Stack.Screen name="ReadConversations" component={ReadConversations}></Stack.Screen>
             <Stack.Screen name="MessagesFromConversation" component={MessagesFromConversation}></Stack.Screen>
-
-
         </Stack.Navigator>
     )
 }
@@ -76,8 +78,6 @@ const ConversationNavigation = () => {
             <Stack.Screen name="ReadConversations" component={ReadConversations}></Stack.Screen>
             <Stack.Screen name="ConversationsFromUser" component={ConversationsFromUser}></Stack.Screen>
             <Stack.Screen name="MessagesFromConversation" component={MessagesFromConversation}></Stack.Screen>
-
-
         </Stack.Navigator>
     )
 }
