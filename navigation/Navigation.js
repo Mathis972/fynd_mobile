@@ -7,7 +7,9 @@ import { inject, observer } from 'mobx-react';
 import CRUDUsers from '../screens/CRUDUsers/CRUDUsers';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CreateUser from '../screens/CRUDUsers/CreateUser';
+import CreateQuestion from '../screens/CRUDQuestions/CreateQuestion';
 import EditUser from '../screens/CRUDUsers/EditUser';
+import ReponsesFromQuestion from '../screens/CRUDQuestions/ReponsesFromQuestion';
 import ReadQuestions from '../screens/CRUDQuestions/ReadQuestions';
 import ReadConversations from '../screens/CRUDConversations/ReadConversations';
 import ConversationsFromUser from '../screens/CRUDConversations/ConversationsFromUser';
@@ -87,9 +89,14 @@ const QuestionNavigation = () => {
         <Stack.Navigator initialRouteName="ReadQuestions" screenOptions={({ route, navigation }) => ({
             headerRight: () => {
                 // return route.name === "ReadQuestions" ? <Ionicons style={{ marginRight: 15 }} onPress={() => navigation.navigate('CreateUser')} name="add" size={25} color={"blue"}></Ionicons> : null
-            }
+            },
+            headerShown: false
         })}>
             <Stack.Screen name="ReadQuestions" component={ReadQuestions}></Stack.Screen>
+            <Stack.Screen name="CreateQuestion" component={CreateQuestion}></Stack.Screen>
+            <Stack.Screen name="ReponsesFromQuestion" component={ReponsesFromQuestion}></Stack.Screen>
+
+
         </Stack.Navigator>
     )
 }
