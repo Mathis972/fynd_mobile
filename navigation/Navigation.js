@@ -7,6 +7,7 @@ import { inject, observer } from 'mobx-react';
 import CRUDUsers from '../screens/CRUDUsers/CRUDUsers';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CreateUser from '../screens/CRUDUsers/CreateUser';
+import ReponsesFromUser from '../screens/CRUDUsers/ReponsesFromUser';
 import CreateQuestion from '../screens/CRUDQuestions/CreateQuestion';
 import EditUser from '../screens/CRUDUsers/EditUser';
 import ReponsesFromQuestion from '../screens/CRUDQuestions/ReponsesFromQuestion';
@@ -63,6 +64,8 @@ const UserNavigation = () => {
             <Stack.Screen name="CreateUser" component={CreateUser}></Stack.Screen>
             <Stack.Screen name="EditUser" component={EditUser}></Stack.Screen>
             <Stack.Screen name="ConversationsFromUser" component={ConversationsFromUser}></Stack.Screen>
+            <Stack.Screen name="ReponsesFromUser" component={ReponsesFromUser}></Stack.Screen>
+
             <Stack.Screen name="ReadConversations" component={ReadConversations}></Stack.Screen>
             <Stack.Screen name="MessagesFromConversation" component={MessagesFromConversation}></Stack.Screen>
         </Stack.Navigator>

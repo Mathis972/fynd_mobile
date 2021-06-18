@@ -58,7 +58,7 @@ const MessageRow = ({ message, updateMessage, deleteMessage }) => {
     const [contenu, setContenu] = useState(message.contenu);
     const [isEditing, setIsEditing] = useState(false);
 
-    return <View style={message.sent_by_user1 ? { backgroundColor: "blue" } : { backgroundColor: "grey" }, { flex: 1, padding: 10, maxHeight: 100, display: "flex", margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+    return <View style={message.sent_by_user1 ? { backgroundColor: "green" } : { backgroundColor: "grey" }, { flex: 1, padding: 10, maxHeight: 100, display: "flex", margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {isEditing ?
             <>
                 <TextInput value={contenu} onChangeText={(text) => setContenu(text)} style={{ flex: 3, textAlign: 'center' }}></TextInput>
